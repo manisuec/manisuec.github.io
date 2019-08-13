@@ -1,7 +1,7 @@
 remote_theme:	"BlackrockDigital/startbootstrap-clean-blog-jekyll"
 title:	"An Affair With Thoughts..."
 email:	"manishvaishu25@gmail.com"
-# description:	"An Affair With Thoughts..."
+description:	"An Affair With Thoughts..."
 author:	"Manish Prasad"
 baseurl:	"/"
 url:	"https://manisuec.github.io"

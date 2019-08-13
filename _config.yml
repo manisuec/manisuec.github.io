@@ -1,6 +1,6 @@
-remote_theme:       BlackrockDigital/startbootstrap-clean-blog-jekyll
-title:              An Affair With Thoughs...
-email:              manishvaishu25@gmail.com
+remote_theme:		BlackrockDigital/startbootstrap-clean-blog-jekyll
+title:				An Affair With Thoughs...
+email:manishvaishu25@gmail.com
 description:        An Affair With Thoughs...
 author:             Manish Prasad
 baseurl:            "/"

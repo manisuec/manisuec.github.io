@@ -1,16 +1,16 @@
-remote_theme:	"BlackrockDigital/startbootstrap-clean-blog-jekyll"
-title:	"An Affair With Thoughts..."
-email:	"manishvaishu25@gmail.com"
-description:	"An Affair With Thoughts..."
-author:	"Manish Prasad"
-baseurl:	"/"
-url:	"https://manisuec.github.io"
+remote_theme: "BlackrockDigital/startbootstrap-clean-blog-jekyll"
+title: "Tech Insights"
+description: "My tech insights..."
+email: "manishvaishu25@gmail.com"
+author: "Manish Prasad"
+baseurl: ""
+url: "https://manisuec.github.io"
 
 # Social Profiles
-twitter_username:	"@_manish25"
-github_username:	"manisuec"
+twitter_username: "@_manish25"
+github_username: "manisuec"
 
 # Build settings
-markdown:	"kramdown"
-paginate:	5
-paginate_path:	"/posts/page:num/"
+markdown: "kramdown"
+paginate: 5
+paginate_path: "/posts/page:num/"

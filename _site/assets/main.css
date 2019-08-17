@@ -5,7 +5,8 @@ body {
 
 p {
   line-height: 1.5;
-  margin: 30px 0; }
+  margin: 30px 0;
+  text-align: justify; }
   p a {
     text-decoration: underline; }
 
@@ -15,7 +16,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 800;
+  font-weight: 500;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
 a {
@@ -63,14 +64,40 @@ img::-moz-selection {
   color: #fff;
   background: transparent; }
 
+pre {
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #bcbec0;
+  background: #f1f3f5;
+  padding: 5px;
+  font: 16px Monaco, Consolas, "Andale  Mono", "DejaVu Sans Mono", monospace; }
+
+code {
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #bcbec0;
+  padding: 5px;
+  font: 16px Monaco, Consolas, "Andale  Mono", "DejaVu Sans Mono", monospace; }
+
+pre code {
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border: 0px;
+  padding: 5px;
+  font: 16px Monaco, Consolas, "Andale  Mono", "DejaVu Sans Mono", monospace; }
+
 #mainNav {
   position: absolute;
   border-bottom: 1px solid #e9ecef;
   background-color: white;
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
   #mainNav .navbar-brand {
-    font-weight: 800;
-    color: #343a40; }
+    font-weight: 500;
+    color: #343a40;
+    font-style: italic; }
   #mainNav .navbar-toggler {
     font-size: 12px;
     font-weight: 800;
@@ -175,6 +202,7 @@ header.masthead {
       line-height: 1.1;
       display: block;
       margin: 10px 0 0;
+      font-style: italic;
       font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
     @media only screen and (min-width: 768px) {
       header.masthead .page-heading h1,
@@ -210,7 +238,7 @@ header.masthead {
     text-decoration: none;
     color: #0085A1; }
   .post-preview > a > .post-title {
-    font-size: 30px;
+    font-size: 24px;
     margin-top: 30px;
     margin-bottom: 10px; }
   .post-preview > a > .post-subtitle {

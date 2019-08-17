@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>
+    Clustering &amp; Inter Process Communication (IPC) in NodeJS - Tech Insights
+    
+  </title>
+
+  <meta name="description" content="Introduction">
+
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="/assets/vendor/fontawesome-free/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="canonical" href="http://localhost:4000/2018/08/19/clustering-and-ipc-nodejs.html">
+  <link rel="alternate" type="application/rss+xml" title="Tech Insights" href="/feed.xml">
+
+</head>
+
+
+<body>
+
+  <!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="/">Tech insights ...</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fa fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/posts">Posts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <!-- Page Header -->
+
+<header class="masthead" style="background-image: url('/img/posts/01.png')">
+  
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Clustering & Inter Process Communication (IPC) in NodeJS</h1>
+            
+            <span class="meta">Posted by
+              <a href="#">Manish Prasad</a>
+              on August 19, 2018 &middot; <span class="reading-time" title="Estimated read time">
+  
+   6 mins  read </span>
+
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+        <h1 id="introduction">Introduction</h1>
+
+<p>A single instance of Node.js runs in a single thread. This does not allow to take advantage of multi-core systems automatically. However, by leveraging <a href="https://nodejs.org/dist/latest-v10.x/docs/api/cluster.html">‘cluster module’</a> one can take advantage of multiple CPU cores. Clustering improves your app’s performance and lets you achieve zero downtime (hot) deployments easily. Also keep in mind that number of workers that can be created is not limited by the number of CPU cores of the machine. Clustering is a must-have for any Node.js production app and there is no reason not to use it.</p>
+
+<h1 id="clustering">Clustering</h1>
+
+<p>Run the below code</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'use strict';
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+if (cluster.isMaster) {
+  console.log('Master process is running with pid:', process.pid);
+for (let i = 0; i &lt; numCPUs; ++i) {
+    cluster.fork();
+  }
+} else {
+  console.log('Worker started with pid:', process.pid);
+}
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ node cluster.js
+Master process is running with pid: 21559
+Worker started with pid: 21570
+Worker started with pid: 21571
+Worker started with pid: 21565
+Worker started with pid: 21577
+</code></pre></div></div>
+
+<p>That’s how easy it is. Cluster module lets you fork multiple child processes (using <a href="https://nodejs.org/dist/latest-v10.x/docs/api/child_process.html#child_process_child_process_fork_modulepath_args_options">child_process.fork()</a>). Making use of the events ‘online’, ‘disconnect’, ‘listening’, ‘message’, ‘error’ and ‘exit’ emitted by worker process, the state of worker process can be easily managed; however, this is not part of this article.</p>
+
+<h1 id="inter-process-communication-ipc">Inter Process Communication (IPC)</h1>
+
+<p>The worker processes spawned can communicate with the parent via IPC (Inter Process Communication) channel which allows messages to be passed back and forth between the parent and child. Cluster module makes use of ‘process.send()’ and process.on(‘message’) to communicate between two processes.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process.on('message', message =&gt; {
+  console.log('Message from parent:', message);
+process.send('Message from worker');
+});
+</code></pre></div></div>
+
+<p>One can dedicate specific workers to do specific tasks. Expensive tasks which are either I/O intensive or CPU intensive can have dedicated worker process/processes. The master can delegate the tasks to dedicated workers. Initialize worker with custom id.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (let i = 0; i &lt; numCPUs; ++i) {
+  const customId = i + 100;
+  const worker = cluster.fork({ workerId: customId });
+}
+</code></pre></div></div>
+
+<p>Worker process ‘env’ is not exposed to master. One approach is to maintain a map of cluster with required info.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const clusterMap = {};
+for (let i = 0; i &lt; numCPUs; ++i) {
+  const customId = i + 100;
+  const worker = cluster.fork({ customId: id });
+clusterMap[worker.id] = customId;
+}
+</code></pre></div></div>
+
+<p>Master can delegate tasks to specific worker something like this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (clusterMap[worker.id] === customId) {
+  worker.send({msg: 'Message from master', task: taskArg});
+}
+</code></pre></div></div>
+
+<p>Similarly, message communicated between master and worker can be customized to delegate tasks. e.g.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>process.send({msgType: 'EMAIL', message: emailContent});
+worker.on('message', function (message) {
+  // each worker is listning to 'message' event
+  // and then perform relevant tasks.
+  switch (message.msgType) {
+    case 'EMAIL':
+      // Code to send email
+      break;
+    default:
+      // default action
+      break;
+  }
+});
+</code></pre></div></div>
+
+<p>Complete code snippet</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>'use strict';
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+if (cluster.isMaster) {
+  console.log('Master process is running with pid:', process.pid);
+const clusterMap = {};
+  let count = 0; // Used to avoid infinite loop
+for (let i = 0; i &lt; numCPUs; ++i) {
+    const customId = i + 100;
+    const worker = cluster.fork({ workerId: customId });
+clusterMap[worker.id] = customId;
+worker.send({ msg: 'Hello from Master' });
+worker.on('message', msg =&gt; {
+      console.log('Message from worker:', clusterMap[worker.id], msg);
+      if (clusterMap[worker.id] === 101 &amp;&amp; !count++) {
+        // Message from master for worker 101 to do specific task with taskArg
+        const taskArg = { params: { name: 'xyz' }, task: 'email' }; // dummy arg
+        worker.send(taskArg);
+      } else {
+        switch (msg.msgType) {
+          case 'EMAIL':
+            console.log('Action to perform is EMAIL');
+            // Code to send email
+            break;
+          default:
+            // default action
+            break;
+        }
+      }
+    });
+  }
+} else {
+  console.log(
+    'Worker started with pid:',
+    process.pid,
+    'and id:',
+    process.env.workerId
+  );
+process.on('message', msg =&gt; {
+    console.log('Message from master:', msg);
+    process.send({
+      msgType: 'EMAIL',
+      msg: 'Hello from worker'
+    });
+  });
+}
+</code></pre></div></div>
+
+<p>Based on the above understanding of Node.js clustering and IPC, processes can communicate in following interaction styles while acting as client and server.</p>
+
+<ul>
+  <li>One-to-one: Typically used for one to one notification or request/response.</li>
+  <li>One-to-many: Typically used for publish/subscribe.</li>
+</ul>
+
+<h1 id="summary">Summary</h1>
+
+<p>Clustering is a must have for any Node.js production app. It helps to scale according to the number of CPU cores available on the machine. It is also easier to manage as there is no dependency on any external module/service. Implementing inter process communication is also very easy. IPC using Node.js cluster module is in memory and hence scalability becomes an issue. Performance also takes a hit when there are too many messages. Management of process state has to be done by yourself.</p>
+
+<p><a href="http://pm2.keymetrics.io">PM2</a> with use of message broker like <a href="https://www.rabbitmq.com">RabbitMQ</a> can also be used to manage the processes and inter process communications which provides more flexibility with the only downside of adding external dependency. It also helps in horizontal scaling and provides a flexible architecture.
+<a href="http://riaevangelist.github.io/node-ipc/">‘node-ipc’</a> is a Node.js module for local and remote Inter Process Communication with full support for Linux, Mac and Windows. It also supports all forms of socket communication from low level unix and windows sockets to UDP and secure TLS and TCP sockets.</p>
+
+<p>You can read more about Node.js cluster module here: <a href="https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster">https://nodejs.org/docs/latest/api/cluster.html#cluster_cluster</a></p>
+
+
+        <hr>
+
+        <div class="clearfix">
+
+          
+          
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Footer -->
+
+<hr>
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <ul class="list-inline text-center">
+          
+          <li class="list-inline-item">
+            <a href="mailto:manishvaishu25@gmail.com">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="far fa-envelope fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+          <li class="list-inline-item">
+            <a href="https://twitter.com/@_manish25">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+          
+          
+          <li class="list-inline-item">
+            <a href="https://github.com/manisuec">
+              <span class="fa-stack fa-lg">
+                <i class="fas fa-circle fa-stack-2x"></i>
+                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+        </ul>
+        <p class="copyright text-muted">Copyright &copy; Manish Prasad 2019</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <script src="/assets/vendor/jquery/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/startbootstrap-clean-blog/js/clean-blog.min.js"></script>
+
+<script src="/assets/scripts.js"></script>
+
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id="></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '');
+</script>
+
+
+
+</body>
+
+</html>

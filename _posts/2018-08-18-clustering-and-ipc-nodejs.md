@@ -36,7 +36,7 @@ Worker started with pid: 21565
 Worker started with pid: 21577
 ```
 
-That’s how easy it is. Cluster module lets you fork multiple child processes (using [child_process.fork()](https://nodejs.org/dist/latest-v10.x/docs/api/child_process.html#child_process_child_process_fork_modulepath_args_options)). Making use of the events ‘online’, ‘disconnect’, ‘listening’, ‘message’, ‘error’ and ‘exit’ emitted by worker process, the state of worker process can be easily managed; however, this is not part of this article.
+That’s how easy it is. Cluster module lets you fork multiple child processes (using [child_process.fork()](https://nodejs.org/dist/latest-v10.x/docs/api/child_process.html#child_process_child_process_fork_modulepath_args_options)). Making use of the events ‘online’, ‘disconnect’, ‘listening’, ‘message’, ‘error’ and ‘exit’ emitted by worker process, the state of worker process can be easily managed; however, this is not further explained in this article.
 
 # Inter Process Communication (IPC)
 

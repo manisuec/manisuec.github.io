@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Clustering & Inter Process Communication (IPC) in NodeJS"
-date: 2018-08-18 23:45:13 -0400
+date: 2018-08-17 00:00:00 +0530
 background: "/img/posts/01.png"
 ---
 

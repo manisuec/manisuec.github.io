@@ -1,0 +1,86 @@
+<p>This is a short guide to configure VS Code for a consistent and reusable development set-up.</p>
+
+<h1 id="eslint-setup">ESLint Setup</h1>
+
+<p>ESLint is an open source JavaScript linting utility. Code linting is a type of static analysis that is frequently used to find problematic patterns or code that doesn’t adhere to certain style guidelines. The primary reason ESLint was created was to allow developers to create their own linting rules. ESLint is designed to have all rules completely pluggable.</p>
+
+<p>Install ESLint locally and create a .eslintrc.json config file by running the below commands in the workspace folder —</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm install eslint --save-dev
+$ ./node_modules/.bin/eslint --init
+</code></pre></div></div>
+
+<p>I prefer local setup for each project however, it can be installed globally too. Run the below commands for a global installation and generating a .eslintrc.json config file —</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm install -g eslint
+$ eslint --init
+</code></pre></div></div>
+
+<p>Few configuration related questions will be asked, choose the options appropriately according to your preferences</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>? How would you like to configure ESLint? Use a popular style guide
+? Which style guide do you want to follow? Standard
+? What format do you want your config file to be in? JSON
+</code></pre></div></div>
+
+<p>Install ESLint VS Code extension using command <code class="highlighter-rouge">ext install vscode-eslint</code>. For more information and configuration settings refer <a href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint">ESLint</a></p>
+
+<h1 id="prettier-setup">Prettier Setup</h1>
+
+<p>Prettier is an opinionated code formatter with support for JavaScript, including ES2017. It removes all original styling* and ensures that all outputted code conforms to a consistent style.</p>
+
+<p>Run below command to install Prettier</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm install --save-dev prettier
+</code></pre></div></div>
+
+<h1 id="integrating-with-eslint">Integrating with ESLint</h1>
+
+<p>ESLint can run Prettier for you, just add Prettier as an ESLint rule using</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ npm install eslint-plugin-prettier eslint-config-prettier --save-dev
+</code></pre></div></div>
+
+<p><strong>eslint-config-prettier</strong> is a config that disables rules that conflict with Prettier.</p>
+
+<p><strong>eslint-plugin-prettier</strong> is a plugin that adds a rule that formats content using Prettier.</p>
+
+<p><strong>eslint-plugin-prettier</strong> exposes a “recommended” configuration that configures both eslint-plugin-prettier and eslint-config-prettier in a single step.</p>
+
+<p>Add below lines in ‘.eslintrc.json’</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+  "extends": [
+    "prettier",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}
+</code></pre></div></div>
+
+<p><strong>‘eslint-config-prettier’</strong> also ships with a little CLI tool to help you check if your configuration contains any rules that are unnecessary or conflict with Prettier.</p>
+
+<p>Add this srcipt in ‘package.json’</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check"
+</code></pre></div></div>
+
+<p>Then run <code class="highlighter-rouge">npm run eslint-check</code></p>
+
+<h1 id="importance">Importance</h1>
+
+<p>Prettier essentially compliments ESLint rules concerning styling. They both help in ensuring a consistent and clean code. This speeds up the development process by improving the quality of code-reviews. Developers will focus more on implementation detail rather than complain about syntax errors and different coding styles. For more information read <a href="https://prettier.io/docs/en/why-prettier.html">Why Prettier?</a></p>
+
+<h2 id="tip">Tip</h2>
+<p>a) Pre-commit hook can be set-up so that the code is always formatted before the commit. <a href="https://gist.github.com/cadebward/c26e218220d653385d876f9a81308140">Pre-commit hook</a></p>
+
+<p>b) Enable auto fix: View → Command Pallete → Open User Settings → add: <code class="highlighter-rouge">"eslint.autoFixOnSave": true</code> line to the settings</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>This sets up VS Code with ESLint and Prettier for development with a consistent configuration.</p>

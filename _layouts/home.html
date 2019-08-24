@@ -37,14 +37,20 @@ layout: default
             <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
             {% endif %}
           </a>
-          <p class="post-meta">Posted by
-            {% if post.author %}
-            {{ post.author }}
-            {% else %}
-            {{ site.author }}
-            {% endif %}
-            on
+          <p class="post-meta">Posted on
             {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}            
+          
+          <a
+                href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+                class="twitter-share-button"
+                data-show-count="false"
+                >Tweet</a
+              ><script
+                async
+                src="https://platform.twitter.com/widgets.js"
+                charset="utf-8"
+              ></script
+            >
           </p>
         </article>
 

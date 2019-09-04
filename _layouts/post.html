@@ -79,6 +79,18 @@ this.page.identifier = document.location.pathname; // Replace PAGE_IDENTIFIER wi
         {% endif %}
         <div class="clearfix">
           {% if page.previous.url %}
+          <span class="meta float-right"
+            ><a
+              href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+              class="twitter-share-button"
+              data-show-count="false"
+              >Tweet</a
+            ><script
+              async
+              src="https://platform.twitter.com/widgets.js"
+              charset="utf-8"
+            ></script
+          ></span>
           <a
             class="btn btn-primary float-left"
             href="{{ page.previous.url | prepend: site.baseurl | replace: '//', '/' }}"
@@ -88,6 +100,18 @@ this.page.identifier = document.location.pathname; // Replace PAGE_IDENTIFIER wi
             >&larr; Previous<span class="d-none d-md-inline"> Post</span></a
           >
           {% endif %} {% if page.next.url %}
+          <span class="meta"
+            ><a
+              href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+              class="twitter-share-button"
+              data-show-count="false"
+              >Tweet</a
+            ><script
+              async
+              src="https://platform.twitter.com/widgets.js"
+              charset="utf-8"
+            ></script
+          ></span>
           <a
             class="btn btn-primary float-right"
             href="{{ page.next.url | prepend: site.baseurl | replace: '//', '/' }}"

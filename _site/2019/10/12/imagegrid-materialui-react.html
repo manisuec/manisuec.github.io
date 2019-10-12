@@ -9,12 +9,12 @@
   />
 
   <title>
-    React App Production Deployment - Tech Insights 
+    Image Grid using Material UI in React - Tech Insights 
   </title>
 
   <meta
     name="description"
-    content="Intro"
+    content="A simple example of a scrollable image grid using Material UI in ReactJS. We had a requirement for a scrollable image grid which will load images lazily. We ..."
   />
 
   <link
@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="/assets/main.css">
   <link
     rel="canonical"
-    href="http://localhost:4000/2019/10/01/react-app-deployment.html"
+    href="http://localhost:4000/2019/10/12/imagegrid-materialui-react.html"
   />
   <link rel="alternate" type="application/rss+xml" title="Tech Insights" href="/feed.xml">
 </head>
@@ -74,7 +74,7 @@
 
 <header
   class="masthead"
-  style="background-image: url('/img/posts/02.png')"
+  style="background-image: url('/img/posts/04.jpg')"
 >
   
     <div class="overlay"></div>
@@ -82,10 +82,10 @@
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="post-heading">
-            <h1>React App Production Deployment</h1>
+            <h1>Image Grid using Material UI in React</h1>
             
             <span class="meta"
-              >Posted on October 01, 2019 &middot; <span class="reading-time" title="Estimated read time">
+              >Posted on October 12, 2019 &middot; <span class="reading-time" title="Estimated read time">
   
    1 min  read </span>
 
@@ -111,7 +111,22 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <p>Intro</p>
+        <p>A simple example of a scrollable image grid using Material UI in ReactJS. We had a requirement for a scrollable image grid which will load images lazily. We started with the <a href="https://material-ui.com/components/grid-list/">Grid List</a> example provided in Material UI.</p>
+
+<p>We added a few more capabilities
+a) Load images lazily
+b) On clicking the tile, bigger size image is displayed with download option.</p>
+
+<ul>
+  <li>Image Grid <img src="/img/posts/ss_0.png" alt="Image Grid" /></li>
+  <li>Expaned Image <img src="/img/posts/ss_1.png" alt="Expanded Image" /></li>
+</ul>
+
+<p>We also used <a href="https://github.com/CassetteRocks/react-infinite-scroller">React Infinite Scroller</a> which is a simple, lightweight infinite scroll package that supports both window and scrollable elements.</p>
+
+<p>Complete code is checked in at <a href="https://github.com/manisuec/Sandbox">GitHub</a>.</p>
+
+<p>You can play around with at <a href="https://codesandbox.io/embed/imagegrid-lepk2">CodeSandbox</a></p>
 
 
         <hr />

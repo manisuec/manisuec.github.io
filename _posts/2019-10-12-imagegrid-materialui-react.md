@@ -9,11 +9,13 @@ A simple example of a scrollable image grid using Material UI in ReactJS. We had
 
 We added a few more capabilities
 
-1. Load images lazily
-2. On clicking the tile, bigger size image is displayed with download option.
+- Load images lazily
+- On clicking the tile, bigger size image is displayed with download option.
 
-- Image Grid ![Image Grid](/img/posts/ss_0.png)
-- Expaned Image ![Expanded Image](/img/posts/ss_1.png)
+Few images of the image grid
+
+1. Image Grid ![Image Grid](/img/posts/ss_0.png)
+2. Expaned Image ![Expanded Image](/img/posts/ss_1.png)
 
 We also used [React Infinite Scroller](https://github.com/CassetteRocks/react-infinite-scroller) which is a simple, lightweight infinite scroll package that supports both window and scrollable elements.
 

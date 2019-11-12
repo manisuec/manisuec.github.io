@@ -50,7 +50,6 @@ comments: true
         {{ content }}
 
         <hr />
-        {% if page.comments %}
         <div id="disqus_thread"></div>
         <script
           src="https://utteranc.es/client.js"
@@ -60,7 +59,7 @@ comments: true
           crossorigin="anonymous"
           async
         ></script>
-        {% endif %}
+
         <div class="clearfix">
           {% if page.previous.url %}
           <span class="meta float-right"

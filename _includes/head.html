@@ -26,9 +26,9 @@
   <meta name="twitter:title" content="{{ page.title }}" />
   {% if page.subtitle %}
   <meta name="twitter:description" content="{{page.subtitle}}" />
+  {% endif %} {% if page.background %}
+  <meta name="twitter:image" content="{{ site.url }}{{ page.background }}" />
   {% endif %}
-
-  <meta name="twitter:image" content="{{page.background}}" />
 
   <link
     href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"

@@ -1,7 +1,7 @@
 body {
   font-size: 20px;
   color: #212529;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 p {
@@ -20,7 +20,7 @@ h4,
 h5,
 h6 {
   font-weight: 500;
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 a {

@@ -21,6 +21,14 @@
         | escape
     }}"
   />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@_manish25" />
+  <meta name="twitter:title" content="{{ page.title }}" />
+  {% if page.subtitle %}
+  <meta name="twitter:description" content="{{page.subtitle}}" />
+  {% endif %}
+
+  <meta name="twitter:image" content="{{page.background}}" />
 
   <link
     href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"
